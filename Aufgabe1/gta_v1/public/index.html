@@ -30,10 +30,23 @@
 
                 <fieldset>
                     <legend>Add a New Geo-Tag</legend>
-                    <div>
+                    <div class="form__group">
                         <label for="lat">Latitude</label>
-                        <input type="text">
+                        <input type="text" id="lat" name="lat" placeholder="69.420">
                     </div>
+                    <div class="form__group">
+                        <label for="lon">Longitude:</label>
+                         <input type="text" id="lon" name="lon" placeholder="420.69">
+                    </div>
+                    <div class="form__group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" placeholder="HKA">
+                    </div>
+                    <div class="form__group">
+                        <label for="hashtag">Hashtag:</label>
+                        <input type="text" id="hashtag" name="hashtag" placeholder="Hochschule">
+                    </div>
+                    <button type="submit">Add Tag</button>
                 </fieldset>
 
             </form>
