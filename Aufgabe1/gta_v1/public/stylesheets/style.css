@@ -100,24 +100,116 @@ button:hover {
 
 /* ### TODO ### Styles for Main Component */
 
-/* ... your code here ... */
+.main {
+  display: flex;
+  flex: 1;
+  padding: 5rem;
+  gap: 5rem;
+  align-items: flex-start;
+}
 
 
 /* ### TODO ### Styles for Tagging component */
 
-/* ... your code here ... */
+.main__tagging {
+  width: 260px;
+  flex-shrink: 0;
+}
 
+.tagging h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  width: 100%;
+}
 
+.form__group {
+  margin-bottom: 1rem;
+}
+
+.form__group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 15px;
+}
+
+.tagging button[type="submit"] {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.discovery button[type="submit"] {
+  margin-top: 0.5rem;
+  width: 12.5%;
+}
 /* ### TODO ### Styles for Discovery component */
 
-/* ... your code here ... */
+.main__discovery {
+  flex: 1;
+}
+
+.discovery__title {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.discovery__search {
+  margin-bottom: 2rem;
+}
+
+.discovery__search .form__group {
+  margin-bottom: 0.7rem;
+}
+
+.discovery__wrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.discovery__taglist {
+  width: 220px;
+  flex-shrink: 0;
+}
+
+.discovery__results li {
+  margin-bottom: 0.5rem;
+}
+
+.discovery__results li a {
+  display: block;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.discovery__results li a:hover {
+  background-color: var(--background-color);
+  text-decoration: none;
+}
+
+.discovery__map {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.discovery__map img {
+  width: 100%;
+  border: 1px solid var(--border-color);
+}
+
+.discovery__map span {
+  font-size: 13px;
+  color: var(--gray-color);
+}
 
 
 /* ### TODO ### Styles for Footer Component */
 
-/* ... your code here ... */
+
 
 
 /* ### TODO ### Media Queries */
 
-/* ... your code here ... */
