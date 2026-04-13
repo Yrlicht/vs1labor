@@ -1,8 +1,8 @@
 /*
-  File origin: VS1LAB A1b  
+  File origin: VS1LAB A1b
 
   CSS style is BEM. Classes used for CSS, IDs for JavaScript querying (future use).
-  CSS variables used for clarity and themability (e.g. through SSR). 
+  CSS variables used for clarity and themability (e.g. through SSR).
   Inherited box sizing used for ease of including 3rd party content-box components.
 */
 
@@ -20,34 +20,331 @@ html {
   box-sizing: inherit;
 }
 
-
 /* Variables (example: see declaration for "a" below) */
 
 :root {
-  --link-color: #00B7FF;
-  --background-color: #efefef;
-  --border-color: #cdcdcd;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  --primary-accent: #3498db;
+  --secondary-accent: #2c3e50;
+  --third-accent: #1a252f;
+  --white-color: #ffffff;
+  --background-color: #f5f7fa;
+  --border-color: #e0e4e8;
+  --light-gray-color: #868788;
   --gray-color: #666;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --border-radius: 12px;
+  --border-radius-sm: 8px;
 }
-
 
 /* HTML element styles */
 
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: var(--background-color);
 }
 
 a {
-  color: var(--link-color);
+  color: var(--primary-accent);
 }
 
 /* ### TODO ### Styles for other HTML elements */
 
-/* ... your code here ... */
+.main {
+  flex: 1;
+  padding: 2rem;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+  align-items: stretch;
+}
 
+/* Header and Footer */
+
+.header {
+  background: linear-gradient(135deg, var(--secondary-accent) 0%, var(--third-accent) 100%);
+  color: var(--background-color);
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  box-shadow: var(--shadow-md);
+  border-bottom: 3px solid var(--primary-accent);
+}
+
+.header__image {
+  height: 42px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  transition: transform 0.2s ease;
+}
+
+.header__image:hover {
+  transform: scale(1.05);
+}
+
+.header__title {
+  font-size: 2rem;
+  color: var(--background-color);
+}
+
+.header__navigation {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.header__navigation a {
+  color: var(--background-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.header__navigation a:hover {
+  color: var(--primary-accent);
+}
+
+.footer {
+  background: linear-gradient(135deg, var(--secondary-accent) 0%, var(--third-accent) 100%);
+  color: var(--background-color);
+  text-align: center;
+  padding: 1.25rem;
+  margin-top: auto;
+  font-size: 0.85rem;
+  border-top: 1px solid var(--primary-accent);
+}
+
+/* Main, Tagging and Discovery */
+
+.main__tagging{
+  flex: 1;
+}
+
+.main__discovery{
+  flex: 3;
+}
+
+.tagging, .discovery {
+  background: var(--white-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.tagging:hover, .discovery:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.tagging h2, .discovery h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.25rem;
+  color: var(--secondary-accent);
+  border-left: 4px solid var(--primary-accent);
+  padding-left: calc(1.25rem + 2px);
+  transition: all 0.2s ease;
+}
+
+.tagging:hover h2, .discovery:hover h2 {
+  margin-left: 8px;
+  padding-left: calc(1.25rem - 2px);
+}
+
+#tag-form fieldset, #discovery-form fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+#tag-form legend, #discovery-form legend {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: var(--gray-color);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  width: 100%;
+}
+
+.form-field {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--secondary-accent);
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
+}
+
+.form-field input {
+  padding: 0.5rem 0.85rem;
+  color: var(--gray-color);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  font-size: 0.9rem;
+}
+
+.form-field input:focus {
+  outline: none;
+  border-color: var(--primary-accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-field input[readonly] {
+  background-color: var(--border-color);
+  cursor: not-allowed;
+  color: var(--light-gray-color);
+}
+
+/* Buttons */
+
+.submit-button {
+  background: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Results and Map */
+
+.discovery__wrapper {
+  display: flex;
+  flex: 1;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.discovery__taglist {
+  flex: 1;
+}
+
+/* Results */
+
+.discovery__results {
+  list-style: none;
+  background: var(--white-color);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid var(--primary-accent);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.discovery__results:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.discovery__results li {
+  background: var(--white-color);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  color: var(--secondary-accent);
+  font-weight: 500;
+}
+
+.discovery__results li div {
+  border-left: 4px solid var(--primary-accent);
+  margin-left: -4px;
+  padding: 0.5rem;
+  padding-left: calc(1.25rem + 2px);
+  padding-right: calc(1.25rem - 2px);
+  transition: all 0.2s ease;
+}
+
+.discovery__results li:hover {
+  background: var(--background-color);
+}
+
+.discovery__results li:hover div {
+  margin-left: 4px;
+  padding-left: calc(1.25rem - 2px);
+  padding-right: calc(1.25rem + 2px);
+}
+
+/* Map */
+
+.discovery__map {
+  flex: 2;
+  background: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border: 4px solid var(--white-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.discovery__map:hover {
+  box-shadow: var(--shadow-md);
+}
+
+#mapView {
+  object-fit: cover;
+  min-width: 100%;
+}
+
+.discovery__map span {
+  display: block;
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+  color: var(--background-color);
+  width: 100%;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem;
+}
+
+.display-none {
+  display: none;
+}
+
+/* Media Queries */
+
+@media (max-width: 850px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .discovery__wrapper {
+    flex-direction: column-reverse;
+  }
+}
 
 /* Grid styles (no changes required) */
 
@@ -105,47 +402,3 @@ a {
 .col-12 {
   width: calc(100% - 1rem);
 }
-
-
-/* ### TODO ### Styles for Header Component */
-
-.header{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 24px;
-  border-bottom: 1px solid rgb(209, 209, 209);
-  background-color: rgb(239, 239, 239);
-}
-
-.header__image{
-  width: 5%;
-  height: auto;
-  position: relative;
-  margin: 10px;
-}
-
-
-/* ### TODO ### Styles for Main Component */
-
-/* ... your code here ... */
-
-
-/* ### TODO ### Styles for Tagging component */
-
-/* ... your code here ... */
-
-
-/* ### TODO ### Styles for Discovery component */
-
-/* ... your code here ... */
-
-
-/* ### TODO ### Styles for Footer Component */
-
-/* ... your code here ... */
-
-
-/* ### TODO ### Media Queries */
-
-/* ... your code here ... */
