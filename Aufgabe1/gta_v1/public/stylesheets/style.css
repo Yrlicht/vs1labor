@@ -77,7 +77,7 @@ a {
   flex-wrap: wrap;
   gap: 1rem;
   box-shadow: var(--shadow-md);
-  border-bottom: 3px solid var(--primary-accent);
+  border-bottom: 4px solid var(--primary-accent);
 }
 
 .header__image {
@@ -98,7 +98,7 @@ a {
 
 .header__navigation {
   display: flex;
-  gap: 1.2rem;
+  gap: 1.25rem;
   align-items: center;
   font-size: 1rem;
 }
@@ -107,7 +107,7 @@ a {
   color: var(--background-color);
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s ease, transform 0.1s ease;
+  transition: color 0.2s ease;
 }
 
 .header__navigation a:hover {
@@ -131,7 +131,7 @@ a {
 }
 
 .main__discovery{
-  flex: 3;
+  flex: 2;
 }
 
 .tagging, .discovery {
@@ -192,11 +192,11 @@ a {
 }
 
 .form-field input {
-  padding: 0.5rem 0.85rem;
+  padding: 0.5rem 0.5rem;
   color: var(--gray-color);
   border: 2px solid var(--border-color);
   border-radius: var(--border-radius-sm);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .form-field input:focus {
@@ -266,10 +266,9 @@ a {
 
 .discovery__results li {
   background: var(--white-color);
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
   transition: all 0.2s ease;
-  font-size: 0.9rem;
   color: var(--secondary-accent);
   font-weight: 500;
 }
@@ -277,7 +276,7 @@ a {
 .discovery__results li div {
   border-left: 4px solid var(--primary-accent);
   margin-left: -4px;
-  padding: 0.5rem;
+  padding: 0.15rem;
   padding-left: calc(1.25rem + 2px);
   padding-right: calc(1.25rem - 2px);
   transition: all 0.2s ease;
@@ -325,7 +324,7 @@ a {
   background: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
   color: var(--background-color);
   width: 100%;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
   padding: 0.5rem;
 }
