@@ -56,7 +56,7 @@
                         disabled>
                     </div>
 
-                    <div class="form-field">
+                    <div class="form-field" id="allow-input">
                         <label for="t-name">Name (Required)</label>
 
                         <input
@@ -68,7 +68,7 @@
                         maxlength="10">
                     </div>
 
-                    <div class="form-field">
+                    <div class="form-field" id="allow-input">
                         <label for="t-hash">Hashtag (Optional)</label>
 
                         <input
@@ -89,64 +89,64 @@
         </section>
 
         <section class="main__discovery">
-            <!-- ############### VS1Lab 1a Form 2 Start -->
-            <form class="discovery" id="discovery-form" action="/discovery" method="post">
-                <h2 class="discovery__title">Discovery</h2>
-
-                <fieldset>
-                    <legend>Search</legend>
-
-                    <div class="form-field">
-                        <label for="search">
-                            Search-term (Name or Hashtag)
-                        </label>
-
-                        <input
-                        type="text"
-                        id="search"
-                        name="search"
-                        maxlength="11"
-                        placeholder="e.g Europapl. or #Euro">
-                    </div>
-
-                    <div class="display-none">
-                        <label for="s-lat">Latitude</label>
-
-                        <input
-                        type="text"
-                        id="s-lat"
-                        name="latitude">
-                    </div>
-
-                    <div class="display-none">
-                        <label for="s-lon">Longitude</label>
-
-                        <input
-                        type="text"
-                        id="s-lon"
-                        name="longitude">
-                    </div>
-
-                    <button type="submit" class="submit-button">
-                        Search
-                    </button>
-                </fieldset>
-            </form>
-            <!-- ############### VS1Lab 1a Form 2 End -->
-
             <div class="discovery__wrapper">
-                <div class="discovery__taglist">
-                    <ul class="discovery__results" id="discoveryResults">
-                        <li><div>Castle (49.01379, 8.404435) #sight</div></li>
-                        <li><div>Arsch der Welt (69.6969, 69.6969) #sight</div></li>
-                        <li><div>IWI (49.01379, 8.390071) #edu</div></li>
-                    </ul>
-                </div>
+                <!-- ############### VS1Lab 1a Form 2 Start -->
+                <form class="discovery" id="discovery-form" action="/discovery" method="post">
+                    <h2 class="discovery__title">Discovery</h2>
+                
+                    <fieldset>
+                        <legend>Search</legend>
+                    
+                        <div class="form-field" id="allow-input">
+                            <label for="search">
+                                Search-term (Name or Hashtag)
+                            </label>
+                        
+                            <input
+                            type="text"
+                            id="search"
+                            name="search"
+                            maxlength="11"
+                            placeholder="e.g Europapl. or #Euro">
+                        </div>
+                    
+                        <div class="display-none">
+                            <label for="s-lat">Latitude</label>
+                        
+                            <input
+                            type="text"
+                            id="s-lat"
+                            name="latitude">
+                        </div>
+                    
+                        <div class="display-none">
+                            <label for="s-lon">Longitude</label>
+                        
+                            <input
+                            type="text"
+                            id="s-lon"
+                            name="longitude">
+                        </div>
+                    
+                        <button type="submit" class="submit-button">
+                            Search
+                        </button>
+                    </fieldset>
+                </form>
+                <!-- ############### VS1Lab 1a Form 2 End -->
+                <ul class="discovery__results" id="discoveryResults">
+                    <li>Castle (49.01379, 8.404435) #sight</li>
+                    <li>Arsch der Welt (69.6969, 69.6969) #sight</li>
+                    <li>IWI (49.01379, 8.390071) #edu</li>
+                </ul>
+            </div>
+        </section>
 
-                <div id="map" class="discovery__map">
-                    <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" />
-                    <span>Result map</span>
-                </div>
+        <section class="main__map">
+            <div id="map" class="discovery__map">
+                <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" />
+
+                <span>Result map</span>
             </div>
         </section>
     </main>
