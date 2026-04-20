@@ -114,13 +114,6 @@ button:hover {
 /* ### TODO ### Styles for Tagging component */
 
 .main__tagging {
-  flex-shrink: 0;
-}
-
-.main__left {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
   width: 260px;
   flex-shrink: 0;
 }
@@ -177,6 +170,7 @@ input[type="text"]:focus {
 /* ### TODO ### Styles for Discovery component */
 
 .main__discovery {
+  flex: 1;
   min-width: 0;
 }
 
@@ -185,16 +179,15 @@ input[type="text"]:focus {
 }
 
 .discovery__search input[type="text"] {
-  width: 100%;
+  width: 200px;
 }
 
 .discovery__search button[type="submit"] {
-  width: 100%;
+  width: 200px;
 }
 
 .discovery__search fieldset {
-  display: block;
-  width: 100%;
+  display: inline-block;
 }
 
 .discovery__wrapper {
@@ -205,7 +198,8 @@ input[type="text"]:focus {
 }
 
 .discovery__taglist {
-  width: 100%;
+  width: 200px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -243,8 +237,6 @@ input[type="text"]:focus {
 
 .discovery__map img {
   width: 100%;
-  max-height: 75vh;
-  object-fit: cover;
   display: block;
   border: 1px solid var(--border-color);
 }
