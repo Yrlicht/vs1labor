@@ -63,7 +63,7 @@ button {
 /*ändert die Farbe des Backgorunds 
   vom button wenn man über diesen hovert*/
 button:hover {
-  background-color: var(--background-color);
+  background-color: var(--border-color);
 }
 
 .col-1 { width: calc(8.33% - 1rem); }
