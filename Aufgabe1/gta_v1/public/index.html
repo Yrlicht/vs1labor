@@ -13,6 +13,8 @@
 </head>
 
 <body>
+    
+
     <header class="header">
         <img src="./images/location.png" class="header__image" alt="an image of a map and location">
         <h1 class="header__title">GeoTagApp</h1>
@@ -22,15 +24,45 @@
     </header>
 
     <main class="main">
-        <section class="main__tagging tagging">
+        <div class="row">
+        <section class="main__tagging tagging col-3">
             <h2>Tagging</h2>
 
             <!-- ############### VS1Lab 1a Form 1 Start -->
-            <form id="tag-form" action="/tagging" method="post">
+             <fieldset>
+                <legend>Add a new GeoTag</legend>
+                <form id="tag-form" action="/tagging" method="post">
 
-                <!-- ... your code here ... -->
+          
+                 <div class="Latitude">
+                    <label for="Latitude">Latitude</label>
+                    <input type="text" id="Latitude" name="Latitude" placeholder="67.6767">
+                    </div>
+                <div class="Longitude">  
+                    <label for="Longitude">Longitude</label>
+                     <input type="text" id="Longitude" name="Latitude" placeholder="67.6767">
+                    </div> 
+                
+
+                
+                <div class="Name">
+                    <label for="Name">Name</label>
+                    <input type="text" id="Name" name="Name" placeholder="max. 10 Buchstaben" maxlength="10" required>
+                    </div>
+                <div class="Hashtag">
+                    <label for="Hashtag">Hashtag (optional)</label>
+                    <input type="text" id="Hashtag" name="Hashtag" pattern=".*#.*" placeholder="max. 10 Buchstaben" maxlength="10">
+                    </div> 
+                 
+
+                <button class="submit">
+                    Add Tag
+                </button>
+                    
+
 
             </form>
+            </fieldset>
             <!-- ############### VS1Lab 1a Form 1 End -->
 
         </section>
@@ -39,11 +71,29 @@
             <h2 class="discovery__title">Discovery</h2>
 
             <!-- ############### VS1Lab 1a Form 2 Start -->
+            <fieldset>
+                <legend>Search</legend>
             <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
 
                 <!-- ... your code here ... -->
+                <div class="Searchterm">
+                    <label for="Searchterm">Search term or keywords</label>
+                    <input type="text" id="Search" name="Search term" placeholder="e.g. Honolulu">
+                    </div>
+                <div class="Latitude">
+                    <label for="hidden" name="Latitude"></label>
+                    </div>
+                <div class="Longitude">
+                    <label for="hidden" name="Longitude"></label>                  
+                    </div>
+                <button class="submit">
+                    Search
+                </button>
+
+
 
             </form>
+            </fieldset>
             <!-- ############### VS1Lab 1a Form 2 End -->
 
             <div class="discovery__wrapper">
@@ -60,7 +110,7 @@
                 </div>
             </div>
         </section>
-
+        </div>
     </main>
 
     <footer class="footer">
