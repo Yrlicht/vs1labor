@@ -35,7 +35,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--background-color);
+  background-color: white;
 }
 
 a {
@@ -46,7 +46,7 @@ a {
 button {
   cursor: pointer;
   padding: 0.4rem 1rem;
-  background-color: #fff;
+  background-color: var(--background-color);
   border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 14px;
@@ -58,6 +58,7 @@ button {
   display: flex;
   justify-content: space-between;
   flex: 1;
+  gap: 2rem;
 }
 
 /*ändert die Farbe des Backgorunds 
@@ -86,8 +87,8 @@ button:hover {
   align-items: center;
   justify-content: space-between;
   padding: 10px 24px;
-  border-bottom: 1px solid rgb(209, 209, 209);
-  background-color: rgb(239, 239, 239);
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background-color);
 }
 
 .header__image{
@@ -102,9 +103,10 @@ button:hover {
 
 .main {
   display: flex;
+  flex-direction: row;
   flex: 1;
-  padding: 5rem;
-  gap: 5rem;
+  padding: 2rem 3rem;
+  gap: 3rem;
   align-items: flex-start;
 }
 
@@ -116,10 +118,37 @@ button:hover {
   flex-shrink: 0;
 }
 
-.tagging h2 {
+.tagging h2,
+.discovery__title {
   font-size: 1.2rem;
   margin-bottom: 0.8rem;
+}
+
+fieldset {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: white;
+}
+
+legend {
+  font-size: 13px;
+  color: var(--gray-color);
+  padding: 0 4px;
+}
+
+input[type="text"] {
   width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #aaa;
 }
 
 .form__group {
@@ -129,7 +158,7 @@ button:hover {
 .form__group label {
   display: block;
   margin-bottom: 0.25rem;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .tagging button[type="submit"] {
@@ -137,42 +166,52 @@ button:hover {
   width: 100%;
 }
 
-.discovery button[type="submit"] {
-  margin-top: 0.5rem;
-  width: 12.5%;
-}
+
 /* ### TODO ### Styles for Discovery component */
 
 .main__discovery {
   flex: 1;
-}
-
-.discovery__title {
-  font-size: 1.2rem;
-  margin-bottom: 0.8rem;
+  min-width: 0;
 }
 
 .discovery__search {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
-.discovery__search .form__group {
-  margin-bottom: 0.7rem;
+.discovery__search input[type="text"] {
+  width: 200px;
+}
+
+.discovery__search button[type="submit"] {
+  width: 200px;
+}
+
+.discovery__search fieldset {
+  display: inline-block;
 }
 
 .discovery__wrapper {
   display: flex;
+  flex-direction: row;
   gap: 1rem;
   align-items: flex-start;
 }
 
 .discovery__taglist {
-  width: 220px;
+  width: 200px;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.discovery__results li {
-  margin-bottom: 0.5rem;
+.discovery__results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .discovery__results li a {
@@ -180,23 +219,25 @@ button:hover {
   padding: 0.6rem 0.8rem;
   border: 1px solid var(--border-color);
   border-radius: 4px;
-  background-color: #fff;
+  background-color: white;
+  color: var(--link-color);
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .discovery__results li a:hover {
   background-color: var(--background-color);
-  text-decoration: none;
 }
 
 .discovery__map {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+  min-width: 0;
 }
 
 .discovery__map img {
   width: 100%;
+  display: block;
   border: 1px solid var(--border-color);
 }
 
@@ -208,8 +249,55 @@ button:hover {
 
 /* ### TODO ### Styles for Footer Component */
 
+.footer{
+  display: flex;
+  margin-top: auto;
+  justify-content: flex-start;
+  padding: 20px 24px;
 
+  border-top: 1px solid var(--border-color);
+  background-color: var(--background-color);
+
+  font-weight: 200;
+  text-align: left;
+}
 
 
 /* ### TODO ### Media Queries */
 
+@media (max-width: 850px) {
+  .row {
+    flex-direction: column;
+  }
+
+  [class^="col-"] {
+    width: 100%;
+  }
+
+  .main {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .main__tagging {
+    width: 100%;
+  }
+
+  .discovery__wrapper {
+    flex-direction: column;
+  }
+
+  .discovery__taglist {
+    width: 100%;
+  }
+
+  .discovery__search input[type="text"],
+  .discovery__search button[type="submit"] {
+    width: 100%;
+  }
+
+  .header__image {
+    width: 10%;
+  }
+}
