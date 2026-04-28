@@ -9,19 +9,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoTagApp</title>
     <link rel="stylesheet" href="./stylesheets/style.css" />
+    <script src="./jScripts/javaScript.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
+<body class="body-red-dark-district">
     <header class="header">
         <img src="./images/location.png" class="header__image" alt="an image of a map and location">
 
         <h1 class="header__title">GeoTagApp</h1>
 
         <nav class="header__navigation">
-            <a href="#">About</a> | <a href="#">Help</a> | <a href="/">Home</a>
+            <a href="#">About</a> | <a href="#">Help</a> | <a href="/">Home</a> |
+            <button id="openThemeBtn" class="theme-toggle-btn" aria-label="Theme switcher">Theme</button>
         </nav>
     </header>
+
+    <div id="themeOverlay" class="theme-overlay">
+        <div class="theme-modal">
+            <h2>Choose Theme</h2>
+
+            <div class="theme-options">
+                <div class="body-red-dark-district">
+                    <div class="theme-card" theme-data="dark-red">
+                        <div class="theme-egg">
+                            <h3>Dark Red Theme</h3>
+
+                            <p>Lorem Ipsum</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="body-red-light-district">
+                    <div class="theme-card" theme-data="light-red">
+                        <div class="theme-egg">
+                            <h3>Light Red Theme</h3>
+
+                            <p>Lorem Ipsum</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="body-green-light-district">
+                    <div class="theme-card" theme-data="light-green">
+                        <div class="theme-egg">
+                            <h3>Light Green Theme</h3>
+                        
+                            <p>Lorem Ipsum</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="close-overlay-btn" id="closeOverlayBtn">Close</button>
+        </div>
+    </div>
 
     <main class="main">
         <section class="main__tagging">
