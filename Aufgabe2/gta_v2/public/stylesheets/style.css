@@ -1,0 +1,315 @@
+/*
+  File origin: VS1LAB A1b  
+
+  CSS style is BEM. Classes used for CSS, IDs for JavaScript querying (future use).
+  CSS variables used for clarity and themability (e.g. through SSR). 
+  Inherited box sizing used for ease of including 3rd party content-box components.
+*/
+
+/* Global styling */
+html {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+
+  /* This approach prevents issues with 3rd party content-box components */
+  box-sizing: inherit;
+}
+
+
+/* Variables (example: see declaration for "a" below) */
+:root {
+  --link-color: #00B7FF;
+  --background-color: #efefef;
+  --border-color: #cdcdcd;
+  --gray-color: #666;
+}
+
+
+/* HTML element styles */
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: white;
+}
+
+a {
+  color: var(--link-color);
+}
+
+/* ### TODO ### Styles for other HTML elements */
+button {
+  cursor: pointer;
+  padding: 0.4rem 1rem;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Grid styles (no changes required) */
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  gap: 2rem;
+}
+
+/*ändert die Farbe des Backgorunds 
+  vom button wenn man über diesen hovert*/
+button:hover {
+  background-color: var(--border-color);
+}
+
+.col-1 { width: calc(8.33% - 1rem); }
+.col-2 { width: calc(16.66% - 1rem); }
+.col-3 { width: calc(25% - 1rem); }
+.col-4 { width: calc(33.33% - 1rem); }
+.col-5 { width: calc(41.66% - 1rem); }
+.col-6 { width: calc(50% - 1rem); }
+.col-7 { width: calc(58.33% - 1rem); }
+.col-8 { width: calc(66.66% - 1rem); }
+.col-9 { width: calc(75% - 1rem); }
+.col-10 { width: calc(83.33% - 1rem); }
+.col-11 { width: calc(91.66% - 1rem); }
+.col-12 { width: calc(100% - 1rem); }
+
+/* ### TODO ### Styles for Header Component */
+
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background-color);
+}
+
+.header__image{
+  width: 5%;
+  height: auto;
+  position: relative;
+  margin: 10px;
+}
+
+
+/* ### TODO ### Styles for Main Component */
+
+.main {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  padding: 2rem 3rem;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+
+/* ### TODO ### Styles for Tagging component */
+
+.main__tagging {
+  flex-shrink: 0;
+}
+
+.main__left {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.tagging h2,
+.discovery__title {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+fieldset {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: white;
+}
+
+legend {
+  font-size: 13px;
+  color: var(--gray-color);
+  padding: 0 4px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #aaa;
+}
+
+.form__group {
+  margin-bottom: 1rem;
+}
+
+.form__group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 14px;
+}
+
+.tagging button[type="submit"] {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+
+/* ### TODO ### Styles for Discovery component */
+
+.main__discovery {
+  min-width: 0;
+}
+
+.discovery__search {
+  margin-bottom: 2.5rem;
+}
+
+.discovery__search input[type="text"] {
+  width: 100%;
+}
+
+.discovery__search button[type="submit"] {
+  width: 100%;
+}
+
+.discovery__search fieldset {
+  display: block;
+  width: 100%;
+}
+
+.discovery__wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.discovery__taglist {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.discovery__results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.discovery__results li a {
+  display: block;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: white;
+  color: var(--link-color);
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.discovery__results li a:hover {
+  background-color: var(--background-color);
+}
+
+.discovery__map {
+  flex: 1;
+  min-width: 0;
+}
+
+.discovery__map img {
+  width: 100%;
+  max-height: 75vh;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--border-color);
+}
+
+.discovery__map span {
+  font-size: 13px;
+  color: var(--gray-color);
+}
+
+
+/* ### TODO ### Styles for Footer Component */
+
+.footer{
+  display: flex;
+  margin-top: auto;
+  justify-content: flex-start;
+  padding: 20px 24px;
+
+  border-top: 1px solid var(--border-color);
+  background-color: var(--background-color);
+
+  font-weight: 200;
+  text-align: left;
+}
+
+
+/* ### TODO ### Media Queries */
+
+@media (max-width: 850px) {
+  .row {
+    flex-direction: column;
+  }
+
+  [class^="col-"] {
+    width: 100%;
+  }
+
+  .main {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .main__tagging {
+    width: 100%;
+  }
+
+  .discovery__wrapper {
+    flex-direction: column;
+  }
+
+  .discovery__taglist {
+    width: 100%;
+  }
+
+  .discovery__search input[type="text"],
+  .discovery__search button[type="submit"] {
+    width: 100%;
+  }
+
+  .header__image {
+    width: 10%;
+  }
+}
+
+#map { 
+   height: 500px;
+ }
