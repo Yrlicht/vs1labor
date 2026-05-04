@@ -58,6 +58,7 @@ button {
   display: flex;
   justify-content: space-between;
   flex: 1;
+  gap: 2rem;
 }
 
 /*ändert die Farbe des Backgorunds 
@@ -113,6 +114,13 @@ button:hover {
 /* ### TODO ### Styles for Tagging component */
 
 .main__tagging {
+  flex-shrink: 0;
+}
+
+.main__left {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   width: 260px;
   flex-shrink: 0;
 }
@@ -169,20 +177,24 @@ input[type="text"]:focus {
 /* ### TODO ### Styles for Discovery component */
 
 .main__discovery {
-  flex: 1;
   min-width: 0;
 }
 
 .discovery__search {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .discovery__search input[type="text"] {
-  width: 200px;
+  width: 100%;
 }
 
 .discovery__search button[type="submit"] {
-  width: 200px;
+  width: 100%;
+}
+
+.discovery__search fieldset {
+  display: block;
+  width: 100%;
 }
 
 .discovery__wrapper {
@@ -193,8 +205,7 @@ input[type="text"]:focus {
 }
 
 .discovery__taglist {
-  width: 200px;
-  flex-shrink: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -232,6 +243,8 @@ input[type="text"]:focus {
 
 .discovery__map img {
   width: 100%;
+  max-height: 75vh;
+  object-fit: cover;
   display: block;
   border: 1px solid var(--border-color);
 }
@@ -260,4 +273,39 @@ input[type="text"]:focus {
 
 /* ### TODO ### Media Queries */
 
-/* ... your code here ... */
+@media (max-width: 850px) {
+  .row {
+    flex-direction: column;
+  }
+
+  [class^="col-"] {
+    width: 100%;
+  }
+
+  .main {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .main__tagging {
+    width: 100%;
+  }
+
+  .discovery__wrapper {
+    flex-direction: column;
+  }
+
+  .discovery__taglist {
+    width: 100%;
+  }
+
+  .discovery__search input[type="text"],
+  .discovery__search button[type="submit"] {
+    width: 100%;
+  }
+
+  .header__image {
+    width: 10%;
+  }
+}
