@@ -139,9 +139,30 @@ class MapManager {
  * A function to retrieve the current location and update the page.
  * It is called once the page has been fully loaded.
  */
-// ... your code here ...
+function updateLocation() {
+    console.log("updateLocation wurde aufgerufen");
+    LocationHelper.findLocation((helper) => {
+        console.log("Position gefunden: " + helper.latitude + ", " + helper.longitude);
+
+        // Koordinaten in beide Formulare eintragen
+        document.getElementById("lat").value = helper.latitude;
+        document.getElementById("lon").value = helper.longitude;
+        document.getElementById("discovery-lat").value = helper.latitude;
+        document.getElementById("discovery-lon").value = helper.longitude;
+
+        // Karte initialisieren und Marker setzen
+        const mapManager = new MapManager();
+        mapManager.initMap(helper.latitude, helper.longitude);
+        mapManager.updateMarkers(helper.latitude, helper.longitude);
+
+        // Platzhalter-Elemente entfernen
+        document.getElementById("mapView").remove();
+        document.querySelector("#map span").remove();
+    });
+}
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
     alert("Please change the script 'geotagging.js'");
+    updateLocation();
 });
