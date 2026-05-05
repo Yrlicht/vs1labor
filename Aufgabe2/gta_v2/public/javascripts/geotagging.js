@@ -11,7 +11,7 @@ console.log("The geoTagging script is going to start...");
 
 // Here the API used for geolocations is selected
 // The following declaration is a 'mockup' that always works and returns a fixed position.
-var GEOLOCATION_API = {
+GEOLOCATION_API = {
     getCurrentPosition: function(onsuccess) {
         onsuccess({
             "coords": {
@@ -132,6 +132,13 @@ class MapManager {
                 .addTo(this.#markers);  
         }
     }
+
+    destroyMap() {
+        if (this.#map) {
+            this.#map.remove();
+            this.#map = null;
+        }
+    }
 }
 
 /**
@@ -139,9 +146,60 @@ class MapManager {
  * A function to retrieve the current location and update the page.
  * It is called once the page has been fully loaded.
  */
-// ... your code here ...
+function updateLocation() {
+    LocationHelper.findLocation((locationHelper) => {
+        const lat = locationHelper.latitude;
+        const lon = locationHelper.longitude;
+
+        // 1. Write coordinates into the tagging form fields
+        const tagLatInput = document.getElementById('t-lat');
+        const tagLonInput = document.getElementById('t-lon');
+        if (tagLatInput) tagLatInput.value = lat;
+        if (tagLonInput) tagLonInput.value = lon;
+
+        // 2. Write coordinates into the hidden discovery form fields
+        const searchLatInput = document.getElementById('s-lat');
+        const searchLonInput = document.getElementById('s-lon');
+        if (searchLatInput) searchLatInput.value = lat;
+        if (searchLonInput) searchLonInput.value = lon;
+
+        // 3. Remove placeholder elements (img, span) from the map container
+        //    BEFORE Leaflet initialises — otherwise initMap's DOM gets wiped.
+        const mapContainer = document.getElementById('map');
+        if (mapContainer) {
+            while (mapContainer.firstChild) {
+                mapContainer.removeChild(mapContainer.firstChild);
+            }
+        }
+
+        // 4. Initialise the Leaflet map at the current position
+        const mapManager = new MapManager();
+        mapManager.initMap(parseFloat(lat), parseFloat(lon));
+
+        // 5. Parse existing GeoTags from the discovery results list
+        //    Expected format: "Name (lat, lon) #hashtag"
+        const resultItems = document.querySelectorAll('.discovery__results li');
+        const geoTags = [];
+        resultItems.forEach(item => {
+            const text = item.textContent;
+            const coordMatch = text.match(/\(([-\d.]+),\s*([-\d.]+)\)/);
+            if (coordMatch) {
+                geoTags.push({
+                    latitude:  parseFloat(coordMatch[1]),
+                    longitude: parseFloat(coordMatch[2]),
+                    name:      text.split('(')[0].trim()
+                });
+            }
+        });
+
+        // 6. Place the current-location marker and all GeoTag markers on the map
+        mapManager.updateMarkers(parseFloat(lat), parseFloat(lon), geoTags);
+
+        console.log(`Location found: Lat=${lat}, Lon=${lon}`);
+    });
+}
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
-    alert("Please change the script 'geotagging.js'");
+    updateLocation();
 });

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoTagApp</title>
     <link rel="stylesheet" href="./stylesheets/style.css" />
-    <script src="./jScripts/javaScript.js" defer></script>
+    <script src="./javascripts/themeSwitcher.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -98,7 +98,7 @@
                         disabled>
                     </div>
 
-                    <div class="form-field" id="allow-input">
+                    <div class="form-field" id="allow-name">
                         <label for="t-name">Name (Required)</label>
 
                         <input
@@ -110,14 +110,14 @@
                         maxlength="10">
                     </div>
 
-                    <div class="form-field" id="allow-input">
+                    <div class="form-field" id="allow-hashtag">
                         <label for="t-hash">Hashtag (Optional)</label>
 
                         <input
                         type="text"
                         id="t-hash"
                         name="hashtag"
-                        pattern="#[A-Za-z]{1-10}"
+                        pattern="#[A-Za-z]{1,10}"
                         maxlength="11"
                         placeholder="e.g #Euro">
                     </div>
@@ -139,7 +139,7 @@
                     <fieldset>
                         <legend>Search</legend>
                     
-                        <div class="form-field" id="allow-input">
+                        <div class="form-field" id="allow-search">
                             <label for="search">
                                 Search-term (Name or Hashtag)
                             </label>
