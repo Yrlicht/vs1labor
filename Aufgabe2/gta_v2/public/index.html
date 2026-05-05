@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<!-- File origin: VS1LAB A1a -->
+
+<html lang="en">
+
+<head>
+    <!-- Leaflet CSS and JavaScript (in this order) -->
+    <link rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoTagApp</title>
+    <link rel="stylesheet" href="./stylesheets/style.css" />
+    <script src="./javascripts/themeSwitcher.js" defer></script>
+    <script src="./javascripts/geotagging.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body class="body-red-dark-district">
+    <header class="header">
+        <img src="./images/location.png" class="header__image" alt="an image of a map and location">
+
+        <h1 class="header__title">GeoTagApp</h1>
+
+        <nav class="header__navigation">
+            <a href="#">About</a> | <a href="#">Help</a> | <a href="/">Home</a> |
+            <button id="openThemeBtn" class="theme-toggle-btn" aria-label="Theme switcher">Theme</button>
+        </nav>
+    </header>
+
+    <div id="themeOverlay" class="theme-overlay">
+        <div class="theme-modal">
+            <h2>Choose Theme</h2>
+
+            <div class="theme-options">
+                <div class="body-red-dark-district">
+                    <div class="theme-card" theme-data="dark-red">
+                        <div class="theme-egg">
+                            <h3>Dark Red Theme</h3>
+
+                            <p>Lorem Ipsum</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="body-red-light-district">
+                    <div class="theme-card" theme-data="light-red">
+                        <div class="theme-egg">
+                            <h3>Light Red Theme</h3>
+
+                            <p>Lorem Ipsum</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="body-green-light-district">
+                    <div class="theme-card" theme-data="light-green">
+                        <div class="theme-egg">
+                            <h3>Light Green Theme</h3>
+                        
+                            <p>Lorem Ipsum</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="close-overlay-btn" id="closeOverlayBtn">Close</button>
+        </div>
+    </div>
+
+    <main class="main">
+        <section class="main__tagging">
+            <!-- ############### VS1Lab 1a Form 1 Start -->
+            <form class="tagging" id="tag-form" action="/tagging" method="post">
+                <h2>Tagging</h2>
+
+                <fieldset>
+                    <legend>Add new Geo-Tag</legend>
+
+                    <div class="form-field">
+                        <label for="t-lat">Latitude (Fixed)</label>
+
+                        <input
+                        type="text"
+                        id="t-lat"
+                        name="latitude"
+                        value="49.01379"
+                        readonly>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="t-lon">Longitude (Fixed)</label>
+
+                        <input
+                        type="text"
+                        id="t-lon"
+                        name="longitude"
+                        value="8.390071"
+                        readonly>
+                    </div>
+
+                    <div class="form-field" id="allow-name">
+                        <label for="t-name">Name (Required)</label>
+
+                        <input
+                        type="text"
+                        id="t-name"
+                        name="name"
+                        required
+                        placeholder="e.g Europapl."
+                        maxlength="10">
+                    </div>
+
+                    <div class="form-field" id="allow-hashtag">
+                        <label for="t-hash">Hashtag (Optional)</label>
+
+                        <input
+                        type="text"
+                        id="t-hash"
+                        name="hashtag"
+                        pattern="#[A-Za-z]{1,10}"
+                        maxlength="11"
+                        placeholder="e.g #Euro">
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        Add Tag
+                    </button>
+                </fieldset>
+            </form>
+            <!-- ############### VS1Lab 1a Form 1 End -->
+        </section>
+
+        <section class="main__discovery">
+            <div class="discovery__wrapper">
+                <!-- ############### VS1Lab 1a Form 2 Start -->
+                <form class="discovery" id="discovery-form" action="/discovery" method="post">
+                    <h2 class="discovery__title">Discovery</h2>
+                
+                    <fieldset>
+                        <legend>Search</legend>
+                    
+                        <div class="form-field" id="allow-search">
+                            <label for="search">
+                                Search-term (Name or Hashtag)
+                            </label>
+                        
+                            <input
+                            type="text"
+                            id="search"
+                            name="search"
+                            maxlength="11"
+                            placeholder="e.g Europapl. or #Euro">
+                        </div>
+                    
+                        <div class="display-none">
+                            <label for="s-lat">Latitude</label>
+                        
+                            <input
+                            type="text"
+                            id="s-lat"
+                            name="latitude">
+                        </div>
+                    
+                        <div class="display-none">
+                            <label for="s-lon">Longitude</label>
+                        
+                            <input
+                            type="text"
+                            id="s-lon"
+                            name="longitude">
+                        </div>
+                    
+                        <button type="submit" class="submit-button">
+                            Search
+                        </button>
+                    </fieldset>
+                </form>
+                <!-- ############### VS1Lab 1a Form 2 End -->
+                <ul class="discovery__results" id="discoveryResults">
+                    <li>Castle (49.01379, 8.404435) #sight</li>
+                    <li>Arsch der Welt (69.6969, 69.6969) #sight</li>
+                    <li>IWI (49.01379, 8.390071) #edu</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="main__map">
+            <div id="map" class="discovery__map"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>(c) 2021/22 HKA_IWI_VSYS</span>
+    </footer>
+</body>
+
+</html>
