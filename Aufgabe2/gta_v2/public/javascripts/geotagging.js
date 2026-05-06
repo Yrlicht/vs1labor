@@ -141,8 +141,7 @@ class MapManager {
  */
 function updateLocation() {
     console.log("updateLocation wurde aufgerufen");
-    LocationHelper.findLocation((helper) => {
-        console.log("Position gefunden: " + helper.latitude + ", " + helper.longitude);
+    LocationHelper.findLocation((helper) => {console.log("Position gefunden: " + helper.latitude + ", " + helper.longitude);
 
         // Koordinaten in beide Formulare eintragen
         document.getElementById("lat").value = helper.latitude;
@@ -166,3 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("Please change the script 'geotagging.js'");
     updateLocation();
 });
+
+
+//TODO: 
+    //überlgen auf https kann man private key dann mit ins repo? denke schon und alles schöner machen

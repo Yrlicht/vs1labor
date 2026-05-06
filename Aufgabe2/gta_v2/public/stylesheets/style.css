@@ -311,5 +311,5 @@ input[type="text"]:focus {
 }
   /* Für Leaflet (laut README) */
   #map { 
-   height: 500px;
+   height: 100%;
  }
