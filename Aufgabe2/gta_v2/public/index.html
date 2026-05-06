@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="./stylesheets/style.css" />
     <script src="./javascripts/themeSwitcher.js" defer></script>
     <script src="./javascripts/geotagging.js" defer></script>
+    <script src="./javascripts/resultListSorting.js" defer></script>
+    <script src="./javascripts/themeSorting.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -37,7 +39,7 @@
         <div class="theme-modal">
             <h2>Choose Theme</h2>
 
-            <div class="theme-options">
+            <div class="theme-options" id="themeOptions">
                 <div class="body-red-dark-district">
                     <div class="theme-card" theme-data="dark-red">
                         <div class="theme-egg">
@@ -63,6 +65,16 @@
                         <div class="theme-egg">
                             <h3>Light Green Theme</h3>
                         
+                            <p>Lorem Ipsum</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="body-green-dark-district">
+                    <div class="theme-card" theme-data="dark-green">
+                        <div class="theme-egg">
+                            <h3>Dark Green Theme</h3>
+
                             <p>Lorem Ipsum</p>
                         </div>
                     </div>
@@ -186,6 +198,8 @@
                     <li>Castle (49.01379, 8.404435) #sight</li>
                     <li>Arsch der Welt (69.6969, 69.6969) #sight</li>
                     <li>IWI (49.01379, 8.390071) #edu</li>
+                    <li>Six Seven (67, -67) #67</li>
+                    <li>Reiseziel (-20.6967, 37.2561) #höhö</li>
                 </ul>
             </div>
         </section>

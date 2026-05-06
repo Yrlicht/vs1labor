@@ -169,7 +169,23 @@ function updateLocation() {
 
         const mapManager = new MapManager();
         mapManager.initMap(parseFloat(lat), parseFloat(lon));
-        mapManager.updateMarkers(parseFloat(lat), parseFloat(lon));
+
+        // All markers
+        const resultItems = document.querySelectorAll('.discovery__results li');
+        const geoTags = [];
+        resultItems.forEach(item => {
+            const text = item.textContent;
+            const coordMatch = text.match(/\(([-\d.]+),\s*([-\d.]+)\)/);
+            if (coordMatch) {
+                geoTags.push({
+                    latitude:  parseFloat(coordMatch[1]),
+                    longitude: parseFloat(coordMatch[2]),
+                    name:      text.split('(')[0].trim()
+                });
+            }
+        });
+
+        mapManager.updateMarkers(parseFloat(lat), parseFloat(lon), geoTags);
         console.log(`Location found: Lat=${lat}, Lon=${lon}`);
     });
 }

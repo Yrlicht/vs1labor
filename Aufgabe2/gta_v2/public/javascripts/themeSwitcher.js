@@ -2,6 +2,7 @@
     const dark_red = 'body-red-dark-district';
     const light_red = 'body-red-light-district';
     const light_green = 'body-green-light-district';
+    const dark_green = 'body-green-dark-district';
     const body = document.body;
     const themeOverlay = document.getElementById('themeOverlay');
     const openThemeBtn = document.getElementById('openThemeBtn');
@@ -9,7 +10,7 @@
     const themeCards = document.querySelectorAll('.theme-card');
 
     function setTheme(theme) {
-        body.classList.remove(dark_red, light_red, light_green)
+        body.classList.remove(dark_red, light_red, light_green, dark_green);
 
         if(theme === 'dark-red') {
             body.classList.add(dark_red);
@@ -20,6 +21,9 @@
         } else if(theme === 'light-green') {
             body.classList.add(light_green);
             localStorage.setItem('district', 'light-green');
+        } else if(theme === 'dark-green') {
+            body.classList.add(dark_green);
+            localStorage.setItem('district', 'dark-green');
         }
 
         updateSelectedCardUI(theme);
@@ -41,6 +45,7 @@
         if(body.classList.contains(dark_red)) return 'dark-red';
         if(body.classList.contains(light_red)) return 'light-red';
         if(body.classList.contains(light_green)) return 'light-green';
+        if(body.classList.contains(dark_green)) return 'dark-green';
         return 'light-red';
     }
 
@@ -80,6 +85,8 @@
         setTheme('dark-red');
     } else if(savedTheme === 'light-green') {
         setTheme('light-green');
+    } else if(savedTheme === 'dark-green') {
+        setTheme('dark-green');
     } else {
         // Default
         setTheme('light-red');

@@ -33,8 +33,8 @@ html {
   --background-color: #eae7e7;
   --border-color: #cecaca;
   --gray-color: #636161;
-  --overlay-color-025: rgba(201, 135, 135, 0.25);
-  --overlay-color-075: rgba(201, 135, 135, 0.75);
+  --overlay-color-025: rgba(197, 133, 133, 0.25);
+  --overlay-color-075: rgba(197, 133, 133, 0.75);
 
   /* Schatten */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -93,8 +93,8 @@ html {
   --background-color: #504f4f;
   --border-color: #6d6b6b;
   --gray-color: #969393;
-  --overlay-color-025: rgba(46, 41, 41, 0.25);
-  --overlay-color-075: rgba(46, 41, 41, 0.75);
+  --overlay-color-025: rgba(64, 41, 41, 0.25);
+  --overlay-color-075: rgba(64, 41, 41, 0.75);
 
   /* Schatten */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -200,6 +200,66 @@ html {
   --m-gap: 12px;
   --l-gap: 16px;
   --xl-gap: 32px;
+}
+
+.body-green-dark-district {
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+    /* Farben */
+    --primary-accent: #229132;
+    --secondary-accent: #d7e1d7;
+    --third-accent: #046c0c;
+    --extremist: #111511;
+    --background-color: #353935;
+    --border-color: #5a605a;
+    --gray-color: #747874;
+    --overlay-color-025: rgba(20, 32, 22, 0.25);
+    --overlay-color-075: rgba(20, 32, 22, 0.75);
+
+    /* Schatten */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+    /* Borders */
+    --border-radius-sm: 4px;
+    --border-radius: 8px;
+    --border-radius-lg: 16px;
+    --border-thickness-sm: 2px;
+    --border-thickness: 4px;
+    --border-thickness-lg: 8px;
+
+    /* Header / Footer */
+    --header-footer-padding-sm: 1rem;
+    --header-footer-padding: 1.5rem;
+    --header-footer-padding-lg: 2rem;
+
+    /* Font Size */
+    --xs-font: 0.75rem;
+    --s-font: 0.85rem;
+    --m-font: 1rem;
+    --l-font: 1.5rem;
+    --xl-font: 2rem;
+
+    /* Padding */
+    --xs-pad: 0.5rem;
+    --s-pad: 0.75rem;
+    --m-pad: 0.85rem;
+    --l-pad: 1rem;
+    --xl-pad: 1.5rem;
+
+    /* Margin */
+    --xs-margin: 4px;
+    --s-margin: 8px;
+    --m-margin: 16px;
+    --l-margin: 32px;
+    --xl-margin: 64px;
+
+    /* Gap */
+    --xs-gap: 4px;
+    --s-gap: 8px;
+    --m-gap: 12px;
+    --l-gap: 16px;
+    --xl-gap: 32px;
 }
 
 body {
