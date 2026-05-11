@@ -109,7 +109,7 @@ class MapManager {
         this.#map = L.map('map').setView([latitude, longitude], zoom);
         var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
         L.tileLayer(
-            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; ' + mapLink + ' Contributors'}).addTo(this.#map);
         this.#markers = L.layerGroup().addTo(this.#map);
     }
@@ -133,39 +133,30 @@ class MapManager {
         }
     }
 }
+//mapmanager außerhalb von updateLocation damit bei mehrfach aufrufn Leaflet nicht crasht
+const mapManager = new MapManager();
 
 /**
- * TODO: 'updateLocation'
  * A function to retrieve the current location and update the page.
  * It is called once the page has been fully loaded.
  */
 function updateLocation() {
-    console.log("updateLocation wurde aufgerufen");
-    LocationHelper.findLocation((helper) => {console.log("Position gefunden: " + helper.latitude + ", " + helper.longitude);
-
-        // Koordinaten in beide Formulare eintragen
+    LocationHelper.findLocation((helper) => {
         document.getElementById("lat").value = helper.latitude;
         document.getElementById("lon").value = helper.longitude;
         document.getElementById("discovery-lat").value = helper.latitude;
         document.getElementById("discovery-lon").value = helper.longitude;
 
-        // Karte initialisieren und Marker setzen
-        const mapManager = new MapManager();
         mapManager.initMap(helper.latitude, helper.longitude);
         mapManager.updateMarkers(helper.latitude, helper.longitude);
 
-        // Platzhalter-Elemente entfernen
-        document.getElementById("mapView").remove();
-        document.querySelector("#map span").remove();
+        //damit bei mehrfach aufruf von updqteLocation .remove() nicht auf Null zeigt (Type error)
+        const img = document.getElementById("mapView");
+        const label = document.querySelector("#map span");
+        if (img) img.remove();
+        if (label) label.remove();
     });
 }
 
 // Wait for the page to fully load its DOM content, then call updateLocation
-document.addEventListener("DOMContentLoaded", () => {
-    alert("Please change the script 'geotagging.js'");
-    updateLocation();
-});
-
-
-//TODO: 
-    //überlgen auf https kann man private key dann mit ins repo? denke schon und alles schöner machen
+document.addEventListener("DOMContentLoaded", updateLocation);
