@@ -5,13 +5,29 @@
  * Complete all TODOs in the code documentation.
  */
 
+const GeoTag = require('./geotag');
+
 /**
- * A class representing example geoTags at HKA
- * 
- * TODO: populate your InMemoryGeoTagStore with these tags
- * 
+ * A class representing example geoTags at HKA.
+ *
+ * Prinzip: tagList liefert nur Rohdaten (Arrays). populate() wandelt
+ * sie in GeoTag-Objekte um und schreibt sie in einen übergebenen Store.
+ * Dadurch bleibt die Klasse von der konkreten Store-Implementierung
+ * entkoppelt – wir reichen einfach irgendwas rein, das `addGeoTag` kann
+ * (Dependency Injection in klein).
  */
 class GeoTagExamples {
+
+    /**
+     * Befüllt den übergebenen Store mit den Beispiel-GeoTags.
+     * @param {{addGeoTag: function}} store
+     */
+    static populate(store) {
+        for (const [name, lat, lon, hashtag] of GeoTagExamples.tagList) {
+            store.addGeoTag(new GeoTag(name, lat, lon, hashtag));
+        }
+    }
+
     /**
      * Provides some geoTag data
      */

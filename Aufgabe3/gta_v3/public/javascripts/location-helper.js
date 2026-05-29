@@ -53,7 +53,10 @@ class LocationHelper {
             // Pass the locationHelper object to the callback.
             callback(helper);
         }, (error) => {
-            alert(error.message)
+            // Fallback: GeoLocation verweigert/timed out -> HKA Default,
+            // damit die App nicht endlos auf den Permission-Dialog wartet.
+            console.warn("GeoLocation fehlgeschlagen, nutze Fallback:", error.message);
+            callback(new LocationHelper(49.013790, 8.390071));
         });
     }
 }

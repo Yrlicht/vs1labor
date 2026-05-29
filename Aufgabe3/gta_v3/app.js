@@ -42,7 +42,12 @@ app.use(express.urlencoded({ extended: false }));
  * Test the result in a browser here: 'http://localhost:3000/'.
  */
 
-// TODO: ... your code here ...
+// Express liefert Dateien aus 'public' direkt unter '/' aus.
+// Beispiel: /stylesheets/style.css -> public/stylesheets/style.css
+// Prinzip: statische Inhalte (CSS, Bilder, Client-JS) brauchen keine
+// Route-Logik – Express schickt sie 1:1 raus. path.join sorgt für
+// plattformunabhängige Pfadtrenner.
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set dedicated script for routing
 app.use('/', indexRouter);

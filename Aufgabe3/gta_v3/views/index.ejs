@@ -1,5 +1,128 @@
-<!-- TODO: HTML AUS AUFGABE2 HIERHER KOPIEREN UND DIE BEISPIEL-EINTRÄGE DER DISCOVERY-LISTE MIT DEN FOLGENDEN ZEILEN ERSETZEN -->
+<!DOCTYPE html>
 
-<% if (taglist !== undefined) taglist.forEach(function(gtag) { %>
-    <li><%= gtag.name %> ( <%= gtag.latitude %>,<%= gtag.longitude %>) <%= gtag.hashtag %> </li>
-<% }); %>
+<!-- File origin: VS1LAB A1a -->
+
+
+<html lang="en">
+
+<head>
+    <link
+        rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin="">
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoTagApp</title>
+    <link rel="stylesheet" href="./stylesheets/style.css" />
+</head>
+
+<body>
+    <header class="header">
+        <img src="./images/location.png" class="header__image" alt="an image of a map and location">
+        <h1 class="header__title">GeoTagApp</h1>
+        <nav class="header__navigation">
+            <a href="#">About</a> | <a href="#">Help</a> | <a href="/">Home</a>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="row">
+        <div class="col-3 main__left">
+
+            <section class="main__tagging tagging">
+                <h2>Tagging</h2>
+
+                <form id="tag-form" action="/tagging" method="post">
+                    <fieldset>
+                        <legend>Add a New Geo-Tag</legend>
+                        <div class="form__group">
+                            <label for="lat">Latitude</label>
+                            <!-- value wird vom Server vorbelegt, sobald lat bekannt ist.
+                                 readonly: der Client soll Koords nicht von Hand ändern. -->
+                            <input type="text" id="lat" name="lat" value="<%= lat || '' %>" readonly>
+                        </div>
+                        <div class="form__group">
+                            <label for="lon">Longitude:</label>
+                            <input type="text" id="lon" name="lon" value="<%= lon || '' %>" readonly>
+                        </div>
+                        <div class="form__group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" placeholder="HKA" required maxlength="10">
+                        </div>
+                        <div class="form__group">
+                            <label for="hashtag">Hashtag:</label>
+                            <input type="text" id="hashtag" name="hashtag" placeholder="#Hochschule" pattern="#\w{0,10}">
+                        </div>
+                        <button type="submit">Add Tag</button>
+                    </fieldset>
+                </form>
+
+            </section>
+
+            <section class="main__discovery discovery">
+                <h2 class="discovery__title">Discovery</h2>
+
+                <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
+                    <fieldset>
+                        <legend>Search</legend>
+                        <div class="form__group">
+                            <label for="search">Search Terms or keywords:</label>
+                            <input type="text" id="search" name="search" placeholder="HKA">
+                        </div>
+                        <!-- hidden: Koordinaten reisen mit, ohne den User abzulenken.
+                             So weiß der Server, wo gesucht werden soll. -->
+                        <input type="hidden" id="discovery-lat" name="lat" value="<%= lat || '' %>">
+                        <input type="hidden" id="discovery-lon" name="lon" value="<%= lon || '' %>">
+                        <button type="submit">Search</button>
+                    </fieldset>
+                </form>
+
+                <div class="discovery__taglist">
+                    <ul class="discovery__results" id="discoveryResults">
+                        <!-- Server-side Loop: aus dem taglist-Array entsteht eine <li> pro Tag. -->
+                        <% if (taglist !== undefined) taglist.forEach(function(gtag) { %>
+                            <li><%= gtag.name %> (<%= gtag.latitude %>, <%= gtag.longitude %>) <%= gtag.hashtag %></li>
+                        <% }); %>
+                    </ul>
+                </div>
+
+            </section>
+
+        </div>
+
+        <div class="col-12">
+            <!--
+                data-tags: HTML5-data-Attribute sind ein sauberer Kanal,
+                um Server-Daten in den DOM zu schmuggeln, ohne extra AJAX.
+                JSON.stringify wandelt das JS-Array in einen JSON-String,
+                den der Client später mit JSON.parse zurückbaut.
+                Wir nehmen die raw-Ausgabe (Bindestrich-Form), damit
+                Anfuehrungszeichen nicht zu &quot; escaped werden – das
+                Attribut ist eh durch single-quotes umschlossen.
+            -->
+            <div id="map" class="discovery__map"
+                 data-tags='<%- JSON.stringify(taglist || []) %>'>
+                <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" />
+                <span>Result map</span>
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <span>(c) 2026 HKA_IWI_VSYS</span>
+    </footer>
+
+    <!-- Reihenfolge wichtig: Hilfklassen zuerst, dann das Skript,
+         das sie benutzt. Sonst ist LocationHelper / MapManager undefined. -->
+    <script src="./javascripts/location-helper.js"></script>
+    <script src="./javascripts/map-manager.js"></script>
+    <script src="./javascripts/geotagging.js"></script>
+</body>
+
+</html>

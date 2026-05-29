@@ -159,4 +159,6 @@ function updateLocation() {
 }
 
 // Wait for the page to fully load its DOM content, then call updateLocation
-document.addEventListener("DOMContentLoaded", updateLocation);
+document.addEventListener("DOMContentLoaded", updateLocation);{
+    alert("getoagging.js")
+}
