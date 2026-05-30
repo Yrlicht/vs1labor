@@ -43,6 +43,7 @@ Mit gegebener Node.js Umgebung gehen sie wie folgt vor:
 1. Führen sie `npm install` im Verzeichnis `Aufgabe3/gta_v3/` aus, um die nötigen Module zu laden und zu installieren.
 2. Um die App später zu starten, führen sie `npm start` im Verzeichnis `Aufgabe3/gta_v3/` aus und öffnen sie [http://localhost:3000](http://localhost:3000) im **Browser**. Am Anfang funktioniert das aber noch nicht, da noch einige Änderungen gemacht werden müssen.
 
+
 ## 3.2. Teilaufgaben
 
 Die Aufgabe besteht nun in der Entwicklung der Serverskripte. Die Clientseite (Browserskripte) muss nur leicht angepasst werden.

@@ -1,21 +1,16 @@
 // File origin: VS1LAB A3
 
 /**
- * This script configures the main express app of the GeoTag server.
- * It's a template for exercise VS1lab/Aufgabe3
- * Complete all TODOs in the code documentation.
- */
-
-/**
  * Define module dependencies.
  */
+
+const GeoTagStore = require('./models/geotag-store');
+const GeoTagExamples = require('./models/geotag-examples');
 
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
-
-const indexRouter = require('./routes/index');
 
 /**
  * Set up Express app.
@@ -41,8 +36,15 @@ app.use(express.urlencoded({ extended: false }));
  * Configure path for static content.
  * Test the result in a browser here: 'http://localhost:3000/'.
  */
-
-// TODO: ... your code here ...
+// Store auffüllen
+const store = new GeoTagStore();
+const exTags = GeoTagExamples.getGeoTagsAsObj();
+exTags.forEach(gt => store.addGeoTag(gt));
+console.log(`Store populated with ${store.count()} geotags`);
+// Statisch daten
+app.use(express.static(path.join(__dirname, 'public')));
+// Übergeben an Router
+const indexRouter = require('./routes/index')(store);
 
 // Set dedicated script for routing
 app.use('/', indexRouter);
@@ -53,7 +55,7 @@ app.use(function(req, res, next) {
   });
 
 // error handler
-app.use(function(err, req, res) {
+app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};  

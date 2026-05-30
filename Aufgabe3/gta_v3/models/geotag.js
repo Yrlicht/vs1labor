@@ -1,18 +1,34 @@
 // File origin: VS1LAB A3
+// höhöhööö
+// Ah ja GeoTag Klasse
 
-/**
- * This script is a template for exercise VS1lab/Aufgabe3
- * Complete all TODOs in the code documentation.
- */
-
-/** * 
- * A class representing geotags.
- * GeoTag objects should contain at least all fields of the tagging form.
- */
 class GeoTag {
+    constructor(lat, lon, name, hash = "#n/a") {
+        this._lat = lat;
+        this._lon = lon;
+        this._name = name;
 
-    // TODO: ... your code here ...
+        if(hash.trim() === '')
+            hash = "#n/a";
+        else
+            this._hash = hash;
+    }
+
+    get lat() {
+        return this._lat;
+    }
     
+    get lon() {
+        return this._lon;
+    }
+    
+    get name() {
+        return this._name;
+    }
+    
+    get hash() {
+        return this._hash;
+    }
 }
 
 module.exports = GeoTag;
