@@ -47,11 +47,11 @@
                         <legend>Add a New Geo-Tag</legend>
                         <div class="form__group">
                             <label for="lat">Latitude</label>
-                            <input type="text" id="lat" name="lat" value="69.420" readonly>
+                            <input type="text" id="lat" name="lat" value="<%= latitude %>" readonly>
                         </div>
                         <div class="form__group">
                             <label for="lon">Longitude:</label>
-                            <input type="text" id="lon" name="lon" value="420.69" readonly>
+                            <input type="text" id="lon" name="lon" value="<%= longitude %>" readonly>
                             <!-- warum readonly bei lat/long?? -->
                         </div>
                         <div class="form__group">
@@ -82,8 +82,8 @@
                             <label for="search">Search Terms or keywords:</label>
                             <input type="text" id="search" name="search" placeholder="HKA">
                         </div>
-                        <input type="hidden" id="discovery-lat" name="lat" value="69.420">
-                        <input type="hidden" id="discovery-lon" name="lon" value="420.69">
+                        <input type="hidden" id="discovery-lat" name="lat" value="<%= latitude %>">
+                        <input type="hidden" id="discovery-lon" name="lon" value="<%= longitude %>">
                         <button type="submit">Search</button>
                     </fieldset>
 
@@ -95,7 +95,7 @@
                         <!--<li><a href="#">Castle (49.01379, 8.404435) #sight</a></li>
                         <li><a href="#">IWI (49.01379, 8.390071) #edu</a></li>-->
                         <% if (taglist !== undefined) taglist.forEach(function(gtag) { %>
-                        <li><%= gtag.name %> ( <%= gtag.latitude %>,<%= gtag.longitude %>) <%= gtag.hashtag %> </li>
+                        <li><a href="#"><%= gtag.name %> (<%= gtag.latitude %>, <%= gtag.longitude %>) <%= gtag.hashtag %></a></li>
                         <% }); %>
                     </ul>
                 </div>
@@ -105,7 +105,7 @@
         </div>
 
         <div class="col-12">
-            <div id="map" class="discovery__map">
+            <div id="map" class="discovery__map" data-tags='<%= JSON.stringify(taglist) %>'>
                 <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" />
                 <span>Result map</span>
             </div>
@@ -118,6 +118,8 @@
     </footer>
 
     <!-- Load JavaScripts -->
+    <script src="./javascripts/location-helper.js"></script>
+    <script src="./javascripts/map-manager.js"></script>
     <script src="./javascripts/geotagging.js"></script>
 </body>
 
