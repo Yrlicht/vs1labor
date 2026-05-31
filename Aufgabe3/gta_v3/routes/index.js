@@ -2,8 +2,6 @@
 
 /**
  * This script defines the main router of the GeoTag server.
- * It's a template for exercise VS1lab/Aufgabe3
- * Complete all TODOs in the code documentation.
  */
 
 /**
@@ -13,71 +11,79 @@
 const express = require('express');
 const router = express.Router();
 
-/**
- * The module "geotag" exports a class GeoTagStore. 
- * It represents geotags.
- * 
- * TODO: implement the module in the file "../models/geotag.js"
- */
-// eslint-disable-next-line no-unused-vars
 const GeoTag = require('../models/geotag');
+const GeoTagStore = require('../models/geotag-store');
+const GeoTagExamples = require('../models/geotag-examples');
 
 /**
- * The module "geotag-store" exports a class GeoTagStore. 
- * It provides an in-memory store for geotag objects.
- * 
- * TODO: implement the module in the file "../models/geotag-store.js"
+ * Single in-memory store, seeded with example geotags.
  */
-// eslint-disable-next-line no-unused-vars
-const GeoTagStore = require('../models/geotag-store');
+const store = new GeoTagStore();
+GeoTagExamples.getGeoTagsAsObj().forEach(tag => store.addGeoTag(tag));
+
+// Search radius in km used for nearby queries.
+const SEARCH_RADIUS_KM = 5;
 
 /**
  * Route '/' for HTTP 'GET' requests.
- * (http://expressjs.com/de/4x/api.html#app.get.method)
- *
- * Requests cary no parameters
- *
- * As response, the ejs-template is rendered without geotag objects.
+ * Renders the entry page without any geotag results.
  */
-
-// TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  res.render('index', {
+    taglist: store.getGeoTags(),
+    latitude: '',
+    longitude: ''
+  });
 });
 
 /**
  * Route '/tagging' for HTTP 'POST' requests.
- * (http://expressjs.com/de/4x/api.html#app.post.method)
  *
- * Requests cary the fields of the tagging form in the body.
- * (http://expressjs.com/de/4x/api.html#req.body)
- *
- * Based on the form data, a new geotag is created and stored.
- *
- * As response, the ejs-template is rendered with geotag objects.
- * All result objects are located in the proximity of the new geotag.
- * To this end, "GeoTagStore" provides a method to search geotags 
- * by radius around a given location.
+ * Creates a new geotag from the submitted form fields and stores it.
+ * Responds with the rendered template showing geotags near the new tag.
  */
+router.post('/tagging', (req, res) => {
+  const latitude = parseFloat(req.body.lat);
+  const longitude = parseFloat(req.body.lon);
+  const name = req.body.name;
+  const hashtag = req.body.hashtag;
 
-// TODO: ... your code here ...
+  const newTag = new GeoTag(latitude, longitude, name, hashtag);
+  store.addGeoTag(newTag);
+
+  const taglist = store.getNearbyGeoTags(latitude, longitude, SEARCH_RADIUS_KM);
+
+  res.render('index', {
+    taglist: taglist,
+    latitude: latitude,
+    longitude: longitude
+  });
+});
 
 /**
  * Route '/discovery' for HTTP 'POST' requests.
- * (http://expressjs.com/de/4x/api.html#app.post.method)
  *
- * Requests cary the fields of the discovery form in the body.
- * This includes coordinates and an optional search term.
- * (http://expressjs.com/de/4x/api.html#req.body)
- *
- * As response, the ejs-template is rendered with geotag objects.
- * All result objects are located in the proximity of the given coordinates.
- * If a search term is given, the results are further filtered to contain 
- * the term as a part of their names or hashtags. 
- * To this end, "GeoTagStore" provides methods to search geotags 
- * by radius and keyword.
+ * Reads coordinates and an optional search term from the form body.
+ * Renders the template with geotags near the given location, filtered by
+ * keyword when one is provided.
  */
+router.post('/discovery', (req, res) => {
+  const latitude = parseFloat(req.body.lat);
+  const longitude = parseFloat(req.body.lon);
+  const search = req.body.search;
 
-// TODO: ... your code here ...
+  let taglist;
+  if (search && search.trim() !== '') {
+    taglist = store.searchNearbyGeoTags(latitude, longitude, search, SEARCH_RADIUS_KM);
+  } else {
+    taglist = store.getNearbyGeoTags(latitude, longitude, SEARCH_RADIUS_KM);
+  }
+
+  res.render('index', {
+    taglist: taglist,
+    latitude: latitude,
+    longitude: longitude
+  });
+});
 
 module.exports = router;
