@@ -32,7 +32,10 @@ GeoTagExamples.populate(store);
  * und das Client-Skript wird die GeoLocation-API anfragen.
  */
 router.get('/', (req, res) => {
-    res.render('index', { taglist: [], lat: undefined, lon: undefined });
+    // Beim Erstaufruf hat der Server noch keine Client-Position.
+    // Damit die Karte trotzdem nicht leer ist, schicken wir einfach
+    // alle bekannten GeoTags als Startliste mit.
+    res.render('index', { taglist: store.getAllGeoTags(), lat: undefined, lon: undefined });
 });
 
 /**

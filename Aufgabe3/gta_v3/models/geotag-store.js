@@ -25,6 +25,15 @@ class InMemoryGeoTagStore {
     }
 
     /**
+     * Gibt eine Kopie aller gespeicherten GeoTags zurück.
+     * Kopie (slice) statt Referenz: außenstehender Code kann die Liste
+     * nicht hinter unserem Rücken verändern (Kapselung bleibt erhalten).
+     */
+    getAllGeoTags() {
+        return this.#geotags.slice();
+    }
+
+    /**
      * Entfernt alle GeoTags mit passendem Namen.
      * filter() erzeugt einen neuen Array ohne die Treffer.
      */
@@ -34,7 +43,7 @@ class InMemoryGeoTagStore {
 
     /**
      * Liefert alle GeoTags innerhalb eines Radius um (lat, lon).
-     * Pythagoras auf Lat/Lon-Differenzen – nur für kleine Distanzen ok.
+     * Pythagoras auf Lat/Lon-Differenzen nur für kleine Distanzen ok.
      */
     getNearbyGeoTags(latitude, longitude, radius = this.#defaultRadius) {
         return this.#geotags.filter(tag => {
