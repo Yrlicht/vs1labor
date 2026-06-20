@@ -1,63 +1,102 @@
-// File origin: VS1LAB A3, A4
+// File origin: VS1LAB A3
 
 /**
- * This script defines the main router of the GeoTag server.
- * It's a template for exercise VS1lab/Aufgabe3
- * Complete all TODOs in the code documentation.
- */
-
-/**
- * Define module dependencies.
+ * Main router of the GeoTag server.
+ *
+ * Prinzipien:
+ * - Trennung Routing vs. Modell: Die Routen wissen, WIE Requests
+ *   verarbeitet werden; das Modell (Store, GeoTag) weiß, WAS die Daten
+ *   sind. Der Router orchestriert nur.
+ * - Single-Store: Wir erzeugen genau eine Store-Instanz beim Laden des
+ *   Moduls. Da Node Module cached, teilen sich alle Requests denselben
+ *   Store -> "Persistenz" während die App läuft.
+ * - Templating: Alle Routen rendern dasselbe EJS-Template `index` und
+ *   übergeben je nach Kontext unterschiedliche Daten (taglist, lat, lon).
  */
 
 const express = require('express');
 const router = express.Router();
 
-/**
- * The module "geotag" exports a class GeoTagStore. 
- * It represents geotags.
- */
-// eslint-disable-next-line no-unused-vars
 const GeoTag = require('../models/geotag');
-
-/**
- * The module "geotag-store" exports a class GeoTagStore. 
- * It provides an in-memory store for geotag objects.
- */
-// eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+const GeoTagExamples = require('../models/geotag-examples');
 
-// App routes (A3)
+// Eine zentrale Store-Instanz für die Lebensdauer des Servers.
+const store = new GeoTagStore();
+// Mit Beispieldaten füllen, damit Discovery von Anfang an etwas findet.
+GeoTagExamples.populate(store);
 
 /**
- * Route '/' for HTTP 'GET' requests.
- * (http://expressjs.com/de/4x/api.html#app.get.method)
- *
- * Requests cary no parameters
- *
- * As response, the ejs-template is rendered without geotag objects.
+ * Route '/' – Einstiegsseite ohne Daten.
+ * lat/lon = undefined: das Template setzt dann keine value-Attribute,
+ * und das Client-Skript wird die GeoLocation-API anfragen.
  */
-
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+    // Beim Erstaufruf hat der Server noch keine Client-Position.
+    // Damit die Karte trotzdem nicht leer ist, schicken wir einfach
+    // alle bekannten GeoTags als Startliste mit.
+    res.render('index', { taglist: store.getAllGeoTags(), lat: undefined, lon: undefined });
 });
 
-// API routes (A4)
+/**
+ * Route '/tagging' (POST):
+ * Das Tagging-Formular schickt Felder per application/x-www-form-urlencoded.
+ * Dank `express.urlencoded()` in app.js stehen sie in req.body bereit.
+ * Ablauf:
+ *  1. Neues GeoTag-Objekt aus den Formularfeldern bauen.
+ *  2. Im Store speichern.
+ *  3. Seite mit allen GeoTags in der Nähe der neuen Position rendern.
+ *     -> Der Nutzer sieht direkt, was um den frisch gesetzten Tag liegt.
+ *  4. lat/lon zurück ans Template, damit Discovery-/Tagging-Formular
+ *     beim nächsten Aufruf nicht erneut die GeoLocation-API brauchen.
+ */
+router.post('/tagging', (req, res) => {
+    const { lat, lon, name, hashtag } = req.body;
+    const tag = new GeoTag(lat, lon, name, hashtag);
+    store.addGeoTag(tag);
+
+    const taglist = store.getNearbyGeoTags(parseFloat(lat), parseFloat(lon));
+    res.render('index', { taglist, lat, lon });
+});
 
 /**
- * Route '/api/geotags' for HTTP 'GET' requests.
+ * Route '/discovery' (POST):
+ * Das Discovery-Formular liefert Koordinaten + optionalen Suchbegriff.
+ * searchNearbyGeoTags() filtert nach Radius UND Keyword.
+ * Bei leerem Suchbegriff -> alle Tags im Umkreis.
+ */
+router.post('/discovery', (req, res) => {
+    const { lat, lon, search } = req.body;
+    console.log('Discovery request:', {lat, lon, search});
+    const taglist = store.searchNearbyGeoTags(parseFloat(lat), parseFloat(lon), search);
+    console.log('Gefundene Tags:', taglist.length);
+    res.render('index', { taglist, lat, lon });
+});
+
+
+
+
+/**
+ * Route '/api/geotags/:id' for HTTP 'GET' requests.
  * (http://expressjs.com/de/4x/api.html#app.get.method)
  *
- * Requests contain the fields of the Discovery form as query.
- * (http://expressjs.com/de/4x/api.html#req.query)
+ * Requests contain the ID of a tag in the path.
+ * (http://expressjs.com/de/4x/api.html#req.params)
  *
- * As a response, an array with Geo Tag objects is rendered as JSON.
- * If 'searchterm' is present, it will be filtered by search term.
- * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
+ * The requested tag is rendered as JSON in the response.
+ * Filtert nach Suchbegriff (?search...) und nach Naehe (?lat ... und ?lon...) 
  */
 
-// TODO: ... your code here ...
 
+router.get('/api/geotags', (req, res) => {
+    const { search, lat, lon } = req.query;
+    const taglist = store.searchGeoTags({
+        keyword: search, 
+        latitude: lat !== undefined ? parseFloat(lat) : undefined,
+        longitude: lon !== undefined ? parseFloat(lon) : undefined
+    });
+    res.json (taglist);
+});
 
 /**
  * Route '/api/geotags' for HTTP 'POST' requests.
@@ -70,20 +109,36 @@ router.get('/', (req, res) => {
  * The new resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.post('/api/geotags', (req, res) => {
+    const { latitude, longitude, name, hashtag } = req.body;
+
+    //Name und Koordinatien sind erforderlich (Validierung)
+    if (!name || latitude === undefined || longitude === undefined) {
+        return res.status(400).json({ error: `name, latitude und longitude sind erforderlich.` });
+    }
+    const tag = new GeoTag(latitude, longitude, name, hashtag);
+    store.addGeoTag(tag); //setzt tag.id
+
+    res.location(`/api/geotags/${tag.id}`);
+    res.status(201).json(tag);
+});
+
+    /**
+     * zuzaetliche Get Methode zur Lieferung eines Einzelnen GeoTags per Id.
+     * 404 falls kein Tag mit der Id existiert
+     */
+router.get('/api/geotags/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const tag = store.getGeoTagById(id);
+
+    if (!tag) {
+        return res.status(404).json({ error: `Geotag: ${req.params.id} nicht gefunden. `});
+    }
+
+    res.json(tag);
+});
 
 
-/**
- * Route '/api/geotags/:id' for HTTP 'GET' requests.
- * (http://expressjs.com/de/4x/api.html#app.get.method)
- *
- * Requests contain the ID of a tag in the path.
- * (http://expressjs.com/de/4x/api.html#req.params)
- *
- * The requested tag is rendered as JSON in the response.
- */
-
-// TODO: ... your code here ...
 
 
 /**
@@ -98,9 +153,18 @@ router.get('/', (req, res) => {
  *
  * Changes the tag with the corresponding ID to the sent value.
  * The updated resource is rendered as JSON in the response. 
+ * 404 falls Id nicht existiert 
  */
 
-// TODO: ... your code here ...
+router.put('/api/geotags/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const updated = store.updateGeoTag(id, req.body);
+
+    if (!updated) {
+        return res.status(404).json({ error: `Geotag ${req.params.id} wurde nicht gefunden`});
+    }
+    res.json(updated);
+})
 
 
 /**
@@ -114,6 +178,14 @@ router.get('/', (req, res) => {
  * The deleted resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
+router.delete('/api/geotags/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const deleted = store.removeGeoTagById(id);
+
+    if (!deleted) {
+        return res.status(404).json({ error: `Geotag ${req.params.id} nicht gefunden`})
+    }
+    res.json(deleted);
+});
 
 module.exports = router;

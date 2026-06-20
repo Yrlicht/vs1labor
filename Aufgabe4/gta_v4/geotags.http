@@ -1,0 +1,95 @@
+### ===================================================================
+### GeoTag REST API – Demonstrator
+### Voraussetzung: Server läuft lokal (npm start) auf Port 3000
+### Benutzung: VS Code Extension "REST Client" installieren, dann
+### über jeder Anfrage auf "Send Request" klicken.
+### ===================================================================
+
+@baseUrl = http://localhost:3000
+
+
+### -------------------------------------------------------------------
+### 1. CREATE – Neuen GeoTag anlegen
+### Erwartete Antwort: Status 201, Location-Header mit neuer URL,
+### Body enthält den neuen GeoTag inkl. vergebener id.
+### -------------------------------------------------------------------
+POST {{baseUrl}}/api/geotags
+Content-Type: application/json
+
+{
+  "name": "Hochschule Karlsruhe",
+  "latitude": 49.0094,
+  "longitude": 8.4044,
+  "hashtag": "#HKA"
+}
+
+
+### -------------------------------------------------------------------
+### 2. READ (alle) – Liste aller GeoTags abrufen
+### Erwartete Antwort: Status 200, JSON-Array, enthält den eben
+### angelegten Tag.
+### -------------------------------------------------------------------
+GET {{baseUrl}}/api/geotags
+
+
+### -------------------------------------------------------------------
+### 3. READ (einzeln) – Genau den eben angelegten GeoTag abrufen
+### WICHTIG: Setze die id unten auf die id aus der Antwort von Schritt 1
+### (z.B. 1, falls es der erste angelegte Tag ist).
+### Erwartete Antwort: Status 200, der einzelne GeoTag als JSON.
+### -------------------------------------------------------------------
+GET {{baseUrl}}/api/geotags/13
+
+
+### -------------------------------------------------------------------
+### 4. UPDATE – Den GeoTag ändern
+### Hier wird z.B. nur der Hashtag aktualisiert.
+### Erwartete Antwort: Status 200, der aktualisierte GeoTag als JSON.
+### -------------------------------------------------------------------
+PUT {{baseUrl}}/api/geotags/13
+Content-Type: application/json
+
+{
+  "hashtag": "#Hochschule #Karlsruhe"
+}
+
+
+### -------------------------------------------------------------------
+### 5. SEARCH – Nach Suchbegriff filtern
+### Sucht nach "Hochschule" in name/hashtag aller GeoTags.
+### Erwartete Antwort: Status 200, JSON-Array mit Treffern.
+### -------------------------------------------------------------------
+GET {{baseUrl}}/api/geotags?search=Hochschule&lat=49.0094&lon=8.4044
+
+
+### -------------------------------------------------------------------
+### 5b. SEARCH – Nach Suchbegriff UND Location filtern
+### Sucht "Hochschule" nur im Umkreis der angegebenen Koordinaten.
+### -------------------------------------------------------------------
+GET {{baseUrl}}/api/geotags?search=Hochschule&lat=49.0094&lon=8.4044
+
+
+### -------------------------------------------------------------------
+### 6. DELETE – Den GeoTag löschen
+### Erwartete Antwort: Status 200, der gelöschte GeoTag als JSON.
+### -------------------------------------------------------------------
+DELETE {{baseUrl}}/api/geotags/13
+
+
+### -------------------------------------------------------------------
+### 7. VERIFY – Bestätigen, dass der GeoTag wirklich weg ist
+### Erwartete Antwort: Status 404, da die id nicht mehr existiert.
+### -------------------------------------------------------------------
+GET {{baseUrl}}/api/geotags/13
+
+
+### -------------------------------------------------------------------
+### 8. ERROR CASE – Ungültige Anfrage (fehlende Pflichtfelder)
+### Erwartete Antwort: Status 400, Fehlermeldung im JSON-Body.
+### -------------------------------------------------------------------
+POST {{baseUrl}}/api/geotags
+Content-Type: application/json
+
+{
+  "hashtag": "#unvollstaendig"
+}
