@@ -1,9 +1,7 @@
-// File origin: VS1LAB A3, A4
+// File origin: VS1LAB A3
 
 /**
  * This script defines the main router of the GeoTag server.
- * It's a template for exercise VS1lab/Aufgabe3
- * Complete all TODOs in the code documentation.
  */
 
 /**
@@ -13,33 +11,72 @@
 const express = require('express');
 const router = express.Router();
 
-/**
- * The module "geotag" exports a class GeoTagStore. 
- * It represents geotags.
- */
-// eslint-disable-next-line no-unused-vars
 const GeoTag = require('../models/geotag');
-
-/**
- * The module "geotag-store" exports a class GeoTagStore. 
- * It provides an in-memory store for geotag objects.
- */
-// eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+const GeoTagExamples = require('../models/geotag-examples');
 
-// App routes (A3)
+const store = new GeoTagStore();
+GeoTagExamples.getGeoTagsAsObj().forEach(tag => store.addGeoTag(tag));
 
-/**
- * Route '/' for HTTP 'GET' requests.
- * (http://expressjs.com/de/4x/api.html#app.get.method)
- *
- * Requests cary no parameters
- *
- * As response, the ejs-template is rendered without geotag objects.
- */
+// Search radius in km used for nearby queries.
+const SEARCH_RADIUS_KM = 5;
 
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  res.render('index', {
+    taglist: store.getGeoTags(),
+    latitude: '',
+    longitude: ''
+  });
+});
+
+/**
+ * Route '/tagging' for HTTP 'POST' requests.
+ *
+ * Creates a new geotag from the submitted form fields and stores it.
+ * Responds with the rendered template showing geotags near the new tag.
+ */
+router.post('/tagging', (req, res) => {
+  const latitude = parseFloat(req.body.lat);
+  const longitude = parseFloat(req.body.lon);
+  const name = req.body.name;
+  const hashtag = req.body.hashtag;
+
+  const newTag = new GeoTag(latitude, longitude, name, hashtag);
+  store.addGeoTag(newTag);
+
+  const taglist = store.getNearbyGeoTags(latitude, longitude, SEARCH_RADIUS_KM);
+
+  res.render('index', {
+    taglist: taglist,
+    latitude: latitude,
+    longitude: longitude
+  });
+});
+
+/**
+ * Route '/discovery' for HTTP 'POST' requests.
+ *
+ * Reads coordinates and an optional search term from the form body.
+ * Renders the template with geotags near the given location, filtered by
+ * keyword when one is provided.
+ */
+router.post('/discovery', (req, res) => {
+  const latitude = parseFloat(req.body.lat);
+  const longitude = parseFloat(req.body.lon);
+  const search = req.body.search;
+
+  let taglist;
+  if (search && search.trim() !== '') {
+    taglist = store.searchNearbyGeoTags(latitude, longitude, search, SEARCH_RADIUS_KM);
+  } else {
+    taglist = store.getNearbyGeoTags(latitude, longitude, SEARCH_RADIUS_KM);
+  }
+
+  res.render('index', {
+    taglist: taglist,
+    latitude: latitude,
+    longitude: longitude
+  });
 });
 
 // API routes (A4)

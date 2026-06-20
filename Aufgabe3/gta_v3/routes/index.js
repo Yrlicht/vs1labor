@@ -15,19 +15,12 @@ const GeoTag = require('../models/geotag');
 const GeoTagStore = require('../models/geotag-store');
 const GeoTagExamples = require('../models/geotag-examples');
 
-/**
- * Single in-memory store, seeded with example geotags.
- */
 const store = new GeoTagStore();
 GeoTagExamples.getGeoTagsAsObj().forEach(tag => store.addGeoTag(tag));
 
 // Search radius in km used for nearby queries.
 const SEARCH_RADIUS_KM = 5;
 
-/**
- * Route '/' for HTTP 'GET' requests.
- * Renders the entry page without any geotag results.
- */
 router.get('/', (req, res) => {
   res.render('index', {
     taglist: store.getGeoTags(),
