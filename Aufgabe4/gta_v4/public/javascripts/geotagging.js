@@ -21,7 +21,19 @@ console.log("The geoTagging script is going to start...");
 // MapManager außerhalb von updateLocation, sonst würde Leaflet bei
 // erneutem L.map('map') auf demselben Container crashen.
 const mapManager = new MapManager();
-
+/**
+ * Schreibt eine Tag-Liste als JSON in das data-tags-Attribut des
+ * Karten-Divs (#map). Dieses Attribut dient als "Gedächtnis" im DOM:
+ * Da AJAX die Seite nicht neu lädt, gibt es kein Server-seitiges
+ * EJS-Rendering mehr, das taglist aktuell hält. Stattdessen pflegen
+ * wir den Stand selbst hier im DOM, damit z.B. nach einem erneuten
+ * applyLocation()-Aufruf die aktuellen Tags noch bekannt sind.
+ *  
+ */
+function writeTagsToDom(taglist) {
+    const mapEl = document.getElementById("map");
+    if (mapEl) mapEl.dataset.tags = JSON.stringify(taglist);
+}
 /**
  * Liest die GeoTag-Liste aus dem data-tags-Attribut des #map-Divs.
  * Fallback auf [], falls Attribut fehlt oder leer ist.
@@ -36,6 +48,23 @@ function readTagsFromDom() {
         console.warn("data-tags konnte nicht geparst werden:", e);
         return [];
     }
+}
+/**
+ * Aktualisiert die sichtbare Ergebnisliste (<ul id="discoveryResults">)
+ * anhand einer Tag-Liste. Wird nach jedem AJAX-Aufruf aufgerufen,
+ * damit Liste und Karte synchron bleiben — ohne Seiten-Reload.
+ * innerHTML = "" leert zunächst die gesamte Liste, danach werden
+ * die neuen Einträge per forEach neu aufgebaut und angehängt.
+ */
+function renderResultsList(taglist) {
+    const list = document.getElementById("discoveryResults");
+    if (!list) return;
+    list.innerHTML = "";
+    taglist.forEach(tag => {
+        const li = document.createElement("li");
+        li.textContent = `${tag.name} ( ${tag.latitude}, ${tag.longitude}) ${tag.hashtag || ""}`;
+        list.appendChild(li);
+    });
 }
 
 /**

@@ -38,7 +38,7 @@ GET {{baseUrl}}/api/geotags
 ### (z.B. 1, falls es der erste angelegte Tag ist).
 ### Erwartete Antwort: Status 200, der einzelne GeoTag als JSON.
 ### -------------------------------------------------------------------
-GET {{baseUrl}}/api/geotags/13
+GET {{baseUrl}}/api/geotags/12
 
 
 ### -------------------------------------------------------------------
@@ -46,7 +46,7 @@ GET {{baseUrl}}/api/geotags/13
 ### Hier wird z.B. nur der Hashtag aktualisiert.
 ### Erwartete Antwort: Status 200, der aktualisierte GeoTag als JSON.
 ### -------------------------------------------------------------------
-PUT {{baseUrl}}/api/geotags/13
+PUT {{baseUrl}}/api/geotags/12
 Content-Type: application/json
 
 {
@@ -73,14 +73,14 @@ GET {{baseUrl}}/api/geotags?search=Hochschule&lat=49.0094&lon=8.4044
 ### 6. DELETE – Den GeoTag löschen
 ### Erwartete Antwort: Status 200, der gelöschte GeoTag als JSON.
 ### -------------------------------------------------------------------
-DELETE {{baseUrl}}/api/geotags/13
+DELETE {{baseUrl}}/api/geotags/12
 
 
 ### -------------------------------------------------------------------
 ### 7. VERIFY – Bestätigen, dass der GeoTag wirklich weg ist
 ### Erwartete Antwort: Status 404, da die id nicht mehr existiert.
 ### -------------------------------------------------------------------
-GET {{baseUrl}}/api/geotags/13
+GET {{baseUrl}}/api/geotags/12
 
 
 ### -------------------------------------------------------------------
